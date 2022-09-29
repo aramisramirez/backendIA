@@ -4,6 +4,9 @@ const fs = require('fs');
 
 const router = Router();
 
+
+router.get('/',(req, res) => res.send('Hola backend books strore master'))
+
 const PATH_ROUTES = __dirname;
 
 const removeExtention = (filename) => {
