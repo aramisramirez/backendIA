@@ -3,15 +3,26 @@ const Schema = mongoose.Schema;
 
 
 const VentasSchema = new Schema({
-    carrito: [
-        {
-            id: String,
-            nombreDocumento: String,
-            estado: Boolean,
-            precio: Number,
-            descuento: Number
-        }
-    ],
+    idDocumento: {
+        type: String,
+        required: true
+    },
+    portada: {
+        type: String,
+        required: true
+    },
+    nombreDocumento: {
+        type: String,
+        required: true
+    },
+    descuento: {
+        type: Number,
+        required: true
+    },
+    documento: {
+        type: String,
+        required: true
+    },
 
     usuario: {
         type: String,

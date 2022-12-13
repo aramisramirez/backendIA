@@ -2,11 +2,13 @@ const Ventas = require('../models/ventas/ventas');
 
 const checkDuplicateBooks = async (req, res, next) => {
 
-    const carritos = req.body.carrito;
+    const iddoc = req.body.idDocumento;
+    const docu = req.body.documento;
 
-    const venta = await Ventas.find({ 'carrito.nombreDocumento': carritos.nombreDocumento });
+    const id = await Ventas.findOne({ idDocumento: iddoc });
+    const doc = await Ventas.findOne({ documento: docu });
 
-    if ( venta) return res.status(400).json({ message: '¡ya habias comprado este libro!' });
+    if ( id, doc) return res.status(400).json({ message: '¡ya habias comprado este libro!' });
 
     next();
 }

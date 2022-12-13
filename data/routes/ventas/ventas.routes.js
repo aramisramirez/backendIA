@@ -8,7 +8,7 @@ const router = Router();
 // router.get('/searchDocumento/:username', documentoCtrl.buscarXDocumento);
 router.get('/MostrarTodo/:usuario', verifyAuth.ensureAuth, ventasCtrl.getVentas);
 router.get('/MostrarTodoCarrito/:usuario', verifyAuth.ensureAuth, ventasCtrl.getVentasCarrito);
-router.put('/venta/:id', verifyAuth.ensureAuth, ventasCtrl.updateAddVentas);
+router.put('/venta/:usuario', verifyAuth.ensureAuth, ventasCtrl.updateAddVentas);
 router.post('/addCarrito', [verifyAuth.ensureAuth], ventasCtrl.addVentas);
 
 

@@ -52,10 +52,14 @@ const getVentasCarrito = async (req, res) => {
 const addVentas = async (req, res) => {
     // capture data 
         // capture data 
-        const { usuario, iva, precioTotal, estado, userCreacion, isActive, userAnulacion, fechaAnulacion } = req.body;
-        const carrito = req.body.carrito;
+        const {idDocumento, nombreDocumento,portada, descuento, documento, usuario, iva, precioTotal, estado, userCreacion, isActive, userAnulacion, fechaAnulacion } = req.body;
         
         const validate = [
+            !validator.isEmpty(idDocumento),
+            !validator.isEmpty(nombreDocumento),
+            !validator.isEmpty(portada),
+            !validator.isEmpty(descuento),
+            !validator.isEmpty(documento),
             !validator.isEmpty(usuario),
             !validator.isEmpty(iva),
             !validator.isEmpty(precioTotal)
@@ -64,10 +68,14 @@ const addVentas = async (req, res) => {
         const { usernameLogin } = req.user;
         const { rol } = req.user;
         if (rol === "User") {
-            if (validate.every(v => v === true) && (carrito.length > 0)) {
+            if (validate.every(v => v === true) ) {
                 // Create the object
                 const newVentasTodos = new ventasTodos({
-                    carrito,
+                    idDocumento,
+                    nombreDocumento,
+                    portada,
+                    descuento,
+                    documento,
                     usuario,
                     iva,
                     precioTotal,
@@ -95,20 +103,17 @@ const addVentas = async (req, res) => {
 
 const updateAddVentas = async (req, res) => {
 
-    const id = req.params.id;
+    const userr = req.params.usuario;
     const params = req.body;
     // capture data 
     const { username } = req.user;
     const { rol } = req.user;
     if (rol === "User") {
-        ventas.findOneAndUpdate({ _id: id, estado: false }, { estado: true ,precioTotal: params.precioTotal, userCompra: username  }, { new: true }, (err, ventaUp) => {
+        ventas.findOneAndUpdate({ userCreacion: userr, estado: false }, { estado: true , userCompra: username  }, { new: true }, (err, ventaUp) => {
             if (err) return res.status(404).json({ message: '¡Ocurrió un error!', ventaUp });
             if (!ventaUp) return res.status(404).json({ message: '¡No tienes nada agregado al carrito para comprar!' });
 
-            const token = jwt.sign({ precioTotal: ventaUp.precioTotal }, config.secret, {
-                expiresIn: 86400 // 24 Hours
-            });
-            return res.status(200).json({ message: '¡Estado actualizado!', token });
+            return res.status(200).json({ message: '¡Estado actualizado!', users });
         });
     } else {
         // Return error
